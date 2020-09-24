@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isMute;
     ImageButton imageButton;
+    ImageView imageView;
     RelativeLayout.LayoutParams layoutParams;
 
 
@@ -46,12 +47,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //fixing the imagebutton size
-        imageButton = (ImageButton) findViewById(R.id.play);
-        layoutParams = (RelativeLayout.LayoutParams) imageButton.getLayoutParams();
-        layoutParams.height = 200;
-        layoutParams.width = 650;
-        imageButton.setLayoutParams(layoutParams);
-        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+//        imageButton = (ImageButton) findViewById(R.id.play);
+//        layoutParams = (RelativeLayout.LayoutParams) imageButton.getLayoutParams();
+//        layoutParams.height = 150;
+//        layoutParams.width = 550;
+//        layoutParams.topMargin = 100;
+//        imageButton.setLayoutParams(layoutParams);
+//        imageButton.setScaleType(ImageButton.ScaleType.FIT_XY);
+
 
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
             @Override
