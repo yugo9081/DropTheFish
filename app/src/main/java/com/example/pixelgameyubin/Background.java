@@ -31,7 +31,7 @@ public class Background { // for moving background
             background = BitmapFactory.decodeResource(res, R.drawable.bg4);
             background = Bitmap.createScaledBitmap(background, screenX, screenY, false);
         } else if (time >= 47 && time < 60) {
-            background = BitmapFactory.decodeResource(res, R.drawable.bg5);
+            background = BitmapFactory.decodeResource(res, R.drawable.bg7);
             background = Bitmap.createScaledBitmap(background, screenX, screenY, false);
         }
 

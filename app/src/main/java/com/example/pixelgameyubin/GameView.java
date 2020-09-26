@@ -90,7 +90,7 @@ public class GameView extends SurfaceView implements Runnable {
         int time = Integer.parseInt(secText);
 
         if (time >= 0 && time < 15) {
-            bgm = MediaPlayer.create(activity, R.raw.shadowing);
+            bgm = MediaPlayer.create(activity, R.raw.sunshine);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
             if (!prefs.getBoolean("isMute", false)){
@@ -112,14 +112,14 @@ public class GameView extends SurfaceView implements Runnable {
                 bgm.start();
             }
         } else if (time >= 35 && time < 47) {
-            bgm = MediaPlayer.create(activity, R.raw.hope);
+            bgm = MediaPlayer.create(activity, R.raw.global);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
             if (!prefs.getBoolean("isMute", false)){
                 bgm.start();
             }
         } else if (time >= 47 && time < 60) {
-            bgm = MediaPlayer.create(activity, R.raw.sunshine);
+            bgm = MediaPlayer.create(activity, R.raw.palm);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
             if (!prefs.getBoolean("isMute", false)){
