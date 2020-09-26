@@ -33,7 +33,12 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isMute;
+    private Context mContext;
+    private Activity mActivity;
 
+    private RelativeLayout mRelativeLayout;
+    private ImageButton mButton;
+    private PopupWindow mPopupWindow;
 
 
     @Override
@@ -83,6 +88,55 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("isMute", isMute);
                 editor.apply();
 
+            }
+        });
+
+        mContext = getApplicationContext();
+
+        // Get the activity
+        mActivity = MainActivity.this;
+
+        // Get the widgets reference from XML layout
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
+        mButton = (ImageButton) findViewById(R.id.help_but);
+
+        // Set a click listener for the text view
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Initialize a new instance of LayoutInflater service
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                // Inflate the custom layout/view
+                View customView = inflater.inflate(R.layout.popup,null);
+
+                // Initialize a new instance of popup window
+                mPopupWindow = new PopupWindow(
+                        customView,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+
+                // Set an elevation value for popup window
+                // Call requires API level 21
+                if(Build.VERSION.SDK_INT>=21){
+                    mPopupWindow.setElevation(5.0f);
+                }
+
+                // Get a reference for the custom view close button
+                ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
+
+                // Set a click listener for the popup window close button
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Dismiss the popup window
+                        mPopupWindow.dismiss();
+                    }
+                });
+
+                // Finally, show the popup window at the center location of root relative layout
+                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
             }
         });
 

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_custom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    android:scrollbarSize="10dp"
+    android:scrollbarThumbVertical="@drawable/custom_scroll_style"
+
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="5dp"
+        android:background="#021526">
+
+
+    <ImageButton
+        android:id="@+id/ib_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:background="@null"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How to Play"
+        android:layout_gravity="top|center_horizontal"
+        android:padding="25sp"
+        android:textSize="30sp"
+        android:fontFamily="@font/fonts"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to DropTheFish! You have to drop the fish to save the cat. Don't let the fish passing the cat or touch the cat."
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:fontFamily="@font/fonts"
+            android:textColor="#ffffff"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="left"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Press left to control the cat"
+                android:padding="20sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/fonts"
+                android:textColor="#ffffff"
+                />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/left"
+            android:layout_gravity="center"/>
+
+        </LinearLayout>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="#ffffff"
+                />
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="right"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Press right to shoot the bullet"
+                android:padding="20sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/fonts"
+                android:textColor="#ffffff"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/right"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="*You can't press the both sides at the same time!"
+            android:textColor="#ffffff"
+            android:padding="30sp"
+            android:textSize="20sp"
+            android:fontFamily="@font/fonts"
+            android:layout_gravity="center" />
+    </LinearLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
