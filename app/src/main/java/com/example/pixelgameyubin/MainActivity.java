@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,9 +33,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isMute;
-    ImageButton imageButton;
-    ImageView imageView;
-    RelativeLayout.LayoutParams layoutParams;
+
 
 
     @Override
@@ -45,15 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-
-        //fixing the imagebutton size
-//        imageButton = (ImageButton) findViewById(R.id.play);
-//        layoutParams = (RelativeLayout.LayoutParams) imageButton.getLayoutParams();
-//        layoutParams.height = 150;
-//        layoutParams.width = 550;
-//        layoutParams.topMargin = 100;
-//        imageButton.setLayoutParams(layoutParams);
-//        imageButton.setScaleType(ImageButton.ScaleType.FIT_XY);
 
 
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         TextView highScoreTxt = findViewById(R.id.highScoreText);
 
         final SharedPreferences prefs = getSharedPreferences("game", MODE_PRIVATE);
-        highScoreTxt.setText("HighScore: " + prefs.getInt("highscore", 0));
+        highScoreTxt.setText("HIGHSCORE: " + prefs.getInt("highscore", 0));
 
 
         isMute = prefs.getBoolean("isMute", false);

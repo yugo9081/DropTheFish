@@ -3,5 +3,5 @@
     <font
         android:fontStyle="normal"
 
-        android:font="@font/acknowtt" />
+        android:font="@font/droid" />
 </font-family>

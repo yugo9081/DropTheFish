@@ -5,17 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -25,7 +31,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -43,9 +51,11 @@ public class GameView extends SurfaceView implements Runnable {
     private List<Bullet> bullets;
     private int sound;
     private MediaPlayer bgm;
+    private MediaPlayer startbgm;
     private Flight flight;
     private GameActivity activity;
     private Background background1, background2;
+    private ImageView image;
 
 
     public GameView(GameActivity activity, int screenX, int screenY) {
@@ -74,10 +84,50 @@ public class GameView extends SurfaceView implements Runnable {
 
 
         //Adding background music
-        bgm = MediaPlayer.create(activity, R.raw.shadowing);
-        bgm.setLooping(true);
-        bgm.setVolume(100, 100);
-        bgm.start();
+        long currentTimeMills = System.currentTimeMillis();
+        Date date = new Date(currentTimeMills);
+        SimpleDateFormat sdfSec = new SimpleDateFormat("ss");
+        String secText = sdfSec.format(date);
+        int time = Integer.parseInt(secText);
+
+        if (time >= 0 && time < 15) {
+            bgm = MediaPlayer.create(activity, R.raw.shadowing);
+            bgm.setLooping(true);
+            bgm.setVolume(100, 100);
+            if (!prefs.getBoolean("isMute", false)){
+                bgm.start();
+            }
+
+        } else if (time >= 15 && time < 25) {
+            bgm = MediaPlayer.create(activity, R.raw.earth);
+            bgm.setLooping(true);
+            bgm.setVolume(100, 100);
+            if (!prefs.getBoolean("isMute", false)){
+                bgm.start();
+            }
+        } else if (time >= 25 && time < 35) {
+            bgm = MediaPlayer.create(activity, R.raw.fwends);
+            bgm.setLooping(true);
+            bgm.setVolume(100, 100);
+            if (!prefs.getBoolean("isMute", false)){
+                bgm.start();
+            }
+        } else if (time >= 35 && time < 47) {
+            bgm = MediaPlayer.create(activity, R.raw.hope);
+            bgm.setLooping(true);
+            bgm.setVolume(100, 100);
+            if (!prefs.getBoolean("isMute", false)){
+                bgm.start();
+            }
+        } else if (time >= 47 && time < 60) {
+            bgm = MediaPlayer.create(activity, R.raw.sunshine);
+            bgm.setLooping(true);
+            bgm.setVolume(100, 100);
+            if (!prefs.getBoolean("isMute", false)){
+                bgm.start();
+            }
+        }
+
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -112,7 +162,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-
         while (isPlaying) {
 
             update();
@@ -120,6 +169,7 @@ public class GameView extends SurfaceView implements Runnable {
             sleep();
 
         }
+
 
     }
 
@@ -137,9 +187,9 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         if (flight.isGoingUp)
-            flight.y -= 30 * screenRatioY;
+            flight.y -= 40 * screenRatioY;
         else
-            flight.y += 30 * screenRatioY;
+            flight.y += 40 * screenRatioY;
 
         if (flight.y < 0)
             flight.y = 0;
@@ -222,11 +272,18 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText(score + "", screenX / 2f, 164, paint);
 
             if (isGameOver) {
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.over);
+                int centreX, centreY;
                 isPlaying = false;
-                canvas.drawBitmap(flight.getDead(), flight.x, flight.y, paint);
+                paint.setColor(Color.RED);
+                centreX = (canvas.getWidth()  - bmp.getWidth()) /2;
+
+                centreY = (canvas.getHeight() - bmp.getHeight()) /2;
+                canvas.drawBitmap(bmp, centreX, centreY, paint);
 
                 getHolder().unlockCanvasAndPost(canvas);
                 saveIfHighScore();
+
                 waitBeforeExiting();
 
                 return;
@@ -243,10 +300,12 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+
     private void waitBeforeExiting() {
 
         try {
-            Thread.sleep(1000);
+
+            Thread.sleep(3000);
 
             activity.startActivity(new Intent(activity, MainActivity.class));
             activity.finish();
@@ -316,8 +375,12 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void newBullet() {
 
-        if (!prefs.getBoolean("isMute", false))
+        if (!prefs.getBoolean("isMute", false)){
             soundPool.play(sound, 1, 1, 0, 0, 1);
+
+        }
+
+
 
         Bullet bullet = new Bullet(getResources());
         bullet.x = flight.x + flight.width;
