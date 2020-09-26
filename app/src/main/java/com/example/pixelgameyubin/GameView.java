@@ -51,11 +51,10 @@ public class GameView extends SurfaceView implements Runnable {
     private List<Bullet> bullets;
     private int sound;
     private MediaPlayer bgm;
-    private MediaPlayer startbgm;
     private Flight flight;
     private GameActivity activity;
     private Background background1, background2;
-    private ImageView image;
+
 
 
     public GameView(GameActivity activity, int screenX, int screenY) {
@@ -261,7 +260,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void draw() {
 
         if (getHolder().getSurface().isValid()) {
-
+            Typeface tf =Typeface.createFromAsset(activity.getAssets(),"droid.ttf");
             Canvas canvas = getHolder().lockCanvas();
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
@@ -269,13 +268,15 @@ public class GameView extends SurfaceView implements Runnable {
             for (Bird bird : birds)
                 canvas.drawBitmap(bird.getBird(), bird.x, bird.y, paint);
 
+            paint.setTypeface(tf);
             canvas.drawText(score + "", screenX / 2f, 164, paint);
 
             if (isGameOver) {
                 Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.over);
                 int centreX, centreY;
                 isPlaying = false;
-                paint.setColor(Color.RED);
+
+
                 centreX = (canvas.getWidth()  - bmp.getWidth()) /2;
 
                 centreY = (canvas.getHeight() - bmp.getHeight()) /2;
