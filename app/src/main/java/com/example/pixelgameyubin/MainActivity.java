@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isMute;
     private Context mContext;
     private Activity mActivity;
-
+    private MediaPlayer title_bgm;
     private RelativeLayout mRelativeLayout;
     private ImageButton mButton;
     private PopupWindow mPopupWindow;
@@ -50,28 +51,34 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-        findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, GameActivity.class));
-            }
-        });
+        // Get the activity
+        mActivity = MainActivity.this;
 
         TextView highScoreTxt = findViewById(R.id.highScoreText);
 
         final SharedPreferences prefs = getSharedPreferences("game", MODE_PRIVATE);
         highScoreTxt.setText("HIGHSCORE: " + prefs.getInt("highscore", 0));
-
+        mContext = getApplicationContext();
 
         isMute = prefs.getBoolean("isMute", false);
         final ImageView volumeCtrl = findViewById(R.id.volumeCtrl);
+        title_bgm = MediaPlayer.create(mActivity, R.raw.title);
+        title_bgm.setLooping(true);
+        title_bgm.setVolume(100, 100);
+        if(!isMute){
+            title_bgm.start();
+        }
 
-
-        if (isMute)
+        if (isMute){
             volumeCtrl.setImageResource(R.drawable.mute);
-        else
+        }
+
+        else{
             volumeCtrl.setImageResource(R.drawable.volumnup);
+
+        }
+
+
 
 
         volumeCtrl.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +91,37 @@ public class MainActivity extends AppCompatActivity {
                 else
                     volumeCtrl.setImageResource(R.drawable.volumnup);
 
+
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("isMute", isMute);
                 editor.apply();
 
+
+                if(isMute){
+                    if(title_bgm.isPlaying()){
+                        title_bgm.pause();
+                    }
+                }
+                else{
+                    title_bgm.start();
+                }
             }
         });
 
-        mContext = getApplicationContext();
 
-        // Get the activity
-        mActivity = MainActivity.this;
+
+        findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title_bgm.stop();
+                startActivity(new Intent(MainActivity.this, GameActivity.class));
+            }
+        });
+
+
+
+
+
 
         // Get the widgets reference from XML layout
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);

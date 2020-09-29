@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import static android.graphics.BitmapFactory.decodeResource;
+
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
@@ -51,8 +53,10 @@ public class GameView extends SurfaceView implements Runnable {
     private List<Bullet> bullets;
     private int sound;
     private MediaPlayer bgm;
+    private MediaPlayer game_over;
     private Flight flight;
     private GameActivity activity;
+
     private Background background1, background2;
 
 
@@ -93,38 +97,31 @@ public class GameView extends SurfaceView implements Runnable {
             bgm = MediaPlayer.create(activity, R.raw.sunshine);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
-            if (!prefs.getBoolean("isMute", false)){
-                bgm.start();
-            }
 
         } else if (time >= 15 && time < 25) {
             bgm = MediaPlayer.create(activity, R.raw.earth);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
-            if (!prefs.getBoolean("isMute", false)){
-                bgm.start();
-            }
+
         } else if (time >= 25 && time < 35) {
             bgm = MediaPlayer.create(activity, R.raw.fwends);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
-            if (!prefs.getBoolean("isMute", false)){
-                bgm.start();
-            }
+
         } else if (time >= 35 && time < 47) {
             bgm = MediaPlayer.create(activity, R.raw.global);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
-            if (!prefs.getBoolean("isMute", false)){
-                bgm.start();
-            }
+
         } else if (time >= 47 && time < 60) {
             bgm = MediaPlayer.create(activity, R.raw.palm);
             bgm.setLooping(true);
             bgm.setVolume(100, 100);
-            if (!prefs.getBoolean("isMute", false)){
-                bgm.start();
-            }
+
+        }
+        //if player doesn't choose mute
+        if (!prefs.getBoolean("isMute", false)){
+            bgm.start();
         }
 
 
@@ -186,7 +183,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         if (flight.isGoingUp)
-            flight.y -= 40 * screenRatioY;
+            flight.y -= 45 * screenRatioY;
         else
             flight.y += 40 * screenRatioY;
 
@@ -203,7 +200,7 @@ public class GameView extends SurfaceView implements Runnable {
             if (bullet.x > screenX)
                 trash.add(bullet);
 
-            bullet.x += 50 * screenRatioX;
+            bullet.x += 65 * screenRatioX;
 
             for (Bird bird : birds) {
 
@@ -272,15 +269,21 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText(score + "", screenX / 2f, 164, paint);
 
             if (isGameOver) {
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.over);
+                Bitmap bmp = decodeResource(getResources(), R.drawable.over);
                 int centreX, centreY;
                 isPlaying = false;
-
+                bgm.stop(); //stopping the background music
 
                 centreX = (canvas.getWidth()  - bmp.getWidth()) /2;
-
                 centreY = (canvas.getHeight() - bmp.getHeight()) /2;
-                canvas.drawBitmap(bmp, centreX, centreY, paint);
+                canvas.drawBitmap(bmp, centreX, centreY, paint); //show gameover image
+
+                //game over sound
+                game_over = MediaPlayer.create(activity, R.raw.splash);
+                game_over.setVolume(100, 100);
+                if (!prefs.getBoolean("isMute", false)){
+                    game_over.start();
+                }
 
                 getHolder().unlockCanvasAndPost(canvas);
                 saveIfHighScore();
@@ -337,7 +340,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void resume() {
 
+
         isPlaying = true;
+
         thread = new Thread(this);
         thread.start();
 
@@ -346,7 +351,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void pause() {
 
         try {
-            bgm.stop(); //stopping the background music
+
             isPlaying = false; //stopping the game
             thread.join();
         } catch (InterruptedException e) {
