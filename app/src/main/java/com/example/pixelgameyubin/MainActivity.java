@@ -120,9 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
         // Get the widgets reference from XML layout
         mRelativeLayout = (RelativeLayout) findViewById(R.id.rl);
         mButton = (ImageButton) findViewById(R.id.help_but);
