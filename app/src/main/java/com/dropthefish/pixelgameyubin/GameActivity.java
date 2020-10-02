@@ -1,19 +1,11 @@
-package com.example.pixelgameyubin;
+package com.dropthefish.pixelgameyubin;
 
-import android.content.SharedPreferences;
 import android.graphics.Point;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class GameActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.example.pixelgameyubin;
+package com.dropthefish.pixelgameyubin;
 
 import android.content.Context;
 import android.content.Intent;

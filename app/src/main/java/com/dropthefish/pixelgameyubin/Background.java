@@ -1,9 +1,8 @@
-package com.example.pixelgameyubin;
+package com.dropthefish.pixelgameyubin;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

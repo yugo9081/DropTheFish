@@ -1,12 +1,12 @@
-package com.example.pixelgameyubin;
+package com.dropthefish.pixelgameyubin;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
-import static com.example.pixelgameyubin.GameView.screenRatioX;
-import static com.example.pixelgameyubin.GameView.screenRatioY;
+import static com.dropthefish.pixelgameyubin.GameView.screenRatioX;
+import static com.dropthefish.pixelgameyubin.GameView.screenRatioY;
 
 public class Bullet {
 
