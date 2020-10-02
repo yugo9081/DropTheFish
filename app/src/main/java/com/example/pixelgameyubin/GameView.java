@@ -1,35 +1,21 @@
 package com.example.pixelgameyubin;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
-import android.os.CountDownTimer;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,7 +32,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX, screenY, score = 0;
     public static float screenRatioX, screenRatioY;
     private Paint paint;
-    private Bird[] birds;
+    private Fish[] fish;
     private SharedPreferences prefs;
     private Random random;
     private SoundPool soundPool;
@@ -143,12 +129,12 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setTextSize(128);
         paint.setColor(Color.WHITE);
 
-        birds = new Bird[4];
+        fish = new Fish[4];
 
         for (int i = 0; i < 4; i++) {
 
-            Bird bird = new Bird(getResources());
-            birds[i] = bird;
+            Fish fish = new Fish(getResources());
+            this.fish[i] = fish;
 
         }
 
@@ -202,15 +188,15 @@ public class GameView extends SurfaceView implements Runnable {
 
             bullet.x += 65 * screenRatioX;
 
-            for (Bird bird : birds) {
+            for (Fish fish : this.fish) {
 
-                if (Rect.intersects(bird.getCollisionShape(),
+                if (Rect.intersects(fish.getCollisionShape(),
                         bullet.getCollisionShape())) {
 
                     score++;
-                    bird.x = -500;
+                    fish.x = -500;
                     bullet.x = screenX + 500;
-                    bird.wasShot = true;
+                    fish.wasShot = true;
 
                 }
 
@@ -221,30 +207,30 @@ public class GameView extends SurfaceView implements Runnable {
         for (Bullet bullet : trash)
             bullets.remove(bullet);
 
-        for (Bird bird : birds) {
+        for (Fish fish : this.fish) {
 
-            bird.x -= bird.speed;
+            fish.x -= fish.speed;
 
-            if (bird.x + bird.width < 0) {
+            if (fish.x + fish.width < 0) {
 
-                if (!bird.wasShot) {
+                if (!fish.wasShot) {
                     isGameOver = true;
                     return;
                 }
 
                 int bound = (int) (30 * screenRatioX);
-                bird.speed = random.nextInt(bound);
+                fish.speed = random.nextInt(bound);
 
-                if (bird.speed < 10 * screenRatioX)
-                    bird.speed = (int) (10 * screenRatioX);
+                if (fish.speed < 10 * screenRatioX)
+                    fish.speed = (int) (10 * screenRatioX);
 
-                bird.x = screenX;
-                bird.y = random.nextInt(screenY - bird.height);
+                fish.x = screenX;
+                fish.y = random.nextInt(screenY - fish.height);
 
-                bird.wasShot = false;
+                fish.wasShot = false;
             }
 
-            if (Rect.intersects(bird.getCollisionShape(), flight.getCollisionShape())) {
+            if (Rect.intersects(fish.getCollisionShape(), flight.getCollisionShape())) {
 
                 isGameOver = true;
                 return;
@@ -262,8 +248,8 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
-            for (Bird bird : birds)
-                canvas.drawBitmap(bird.getBird(), bird.x, bird.y, paint);
+            for (Fish fish : this.fish)
+                canvas.drawBitmap(fish.getFish(), fish.x, fish.y, paint);
 
             paint.setTypeface(tf);
             canvas.drawText(score + "", screenX / 2f, 164, paint);
